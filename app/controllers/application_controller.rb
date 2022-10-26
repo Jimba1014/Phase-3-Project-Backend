@@ -15,8 +15,8 @@ class ApplicationController < Sinatra::Base
       title: params[:title],
       description: params[:description],
       article_text: params[:article_text]
-      # author_id:
-      # categroy_id:
+      author_id: params[:aurthor_id]
+      categroy_id: params[:category_id]
     )
     new_article.to_json
   end
