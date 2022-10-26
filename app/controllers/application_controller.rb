@@ -10,6 +10,12 @@ class ApplicationController < Sinatra::Base
     article.to_json
   end
 
+  get "/articles_basics" do
+    article = Article.all
+    # article.to_json(only: [:id, :title, :description, :article_text], include: [:author])
+    article.to_json(only: [:id, :title, :description, :article_text], include:  { author:{only: [:id, :first_name, :last_name], include: {categories: {only: [:name]}}}})
+  end
+
   post "/articles" do
     new_article = Article.create(
       title: params[:title],
@@ -30,10 +36,7 @@ class ApplicationController < Sinatra::Base
     )
   end
 
-  get "/articles_basics" do
-    article = Article.all
-    article.to_json(only: [:id, :title, :description], include: [:author] )
-  end
+
 
   get '/articles/:id' do
     article = Article.find(params[:id])
