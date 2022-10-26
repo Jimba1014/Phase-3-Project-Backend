@@ -14,8 +14,8 @@ class ApplicationController < Sinatra::Base
     new_article = Article.create(
       title: params[:title],
       description: params[:description],
-      article_text: params[:article_text]
-      author_id: params[:aurthor_id]
+      article_text: params[:article_text],
+      author_id: params[:aurthor_id],
       categroy_id: params[:category_id]
     )
     new_article.to_json
