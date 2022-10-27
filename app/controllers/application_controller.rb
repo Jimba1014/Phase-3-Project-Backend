@@ -10,6 +10,19 @@ class ApplicationController < Sinatra::Base
     article.to_json
   end
 
+  get "/pictures" do
+    pics = Picture.all
+    pics.to_json
+  end
+
+  post "/pictures" do
+    newPicture = Picture.create(
+      name: params[:name],
+      image_url: params[:image_url],
+      article_id: params[:article_id]
+    )
+  end
+
   get "/articles_basics" do
     article = Article.all
     # article.to_json(only: [:id, :title, :description, :article_text], include: [:author])
@@ -22,7 +35,7 @@ class ApplicationController < Sinatra::Base
       description: params[:description],
       article_text: params[:article_text],
       author_id: params[:aurthor_id],
-      categroy_id: params[:category_id]
+      category_id: params[:category_id]
     )
     new_article.to_json
   end
