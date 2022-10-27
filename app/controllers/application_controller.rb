@@ -13,7 +13,7 @@ class ApplicationController < Sinatra::Base
   get "/articles_basics" do
     article = Article.all
     # article.to_json(only: [:id, :title, :description, :article_text], include: [:author])
-    article.to_json(only: [:id, :title, :description, :article_text], include:  { author:{only: [:id, :first_name, :last_name], include: {categories: {only: [:name]}}}})
+    article.to_json(only: [:id, :title, :description, :article_text,], include:  { author:{only: [:id, :first_name, :last_name], include: {categories: {only: [:name]}}}, pictures: {only: [:image_url, :name]}})
   end
 
   post "/articles" do
