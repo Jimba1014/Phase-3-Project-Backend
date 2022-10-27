@@ -17,12 +17,13 @@ class ApplicationController < Sinatra::Base
   end
 
   post "/articles" do
+    category = Category.find_by(id: params[:category])
     new_article = Article.create(
       title: params[:title],
       description: params[:description],
       article_text: params[:article_text],
-      author_id: params[:aurthor_id],
-      categroy_id: params[:category_id]
+      author_id: params[:author_id],
+      category: category
     )
     new_article.to_json
   end
