@@ -30,12 +30,22 @@ class ApplicationController < Sinatra::Base
   end
 
   post "/articles" do
+    category = Category.find_by(id: params[:category])
+    author = Author.find_by(first_name: params[:first_name], last_name: params[:last_name])
+
+    if author == nil 
+      print("Creating author...")
+      author = Author.create(first_name: params[:first_name], last_name: params[:last_name])
+    end
+
+    print(params)
+
     new_article = Article.create(
       title: params[:title],
       description: params[:description],
       article_text: params[:article_text],
-      author_id: params[:aurthor_id],
-      category_id: params[:category_id]
+      author: author,
+      category: category
     )
     new_article.to_json
   end
