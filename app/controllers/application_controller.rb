@@ -70,13 +70,6 @@ class ApplicationController < Sinatra::Base
       article_text: art
     )
 
-    # Picture.delete_all
-
-    # picture = Picture.create(
-    #   name: params[:picture_name],
-    #   image_url: params[:picture],
-    #   article_id: params[:id]
-    # )
     # binding.pry
     updated.to_json(only: [:id, :title, :description, :article_text,], include:  { author:{only: [:id, :first_name, :last_name], include: {categories: {only: [:name, :id]}}}, pictures: {only: [:image_url, :name]}})
   end
