@@ -28,7 +28,7 @@ class ApplicationController < Sinatra::Base
   get "/articles_basics" do
     article = Article.all
     # article.to_json(only: [:id, :title, :description, :article_text], include: [:author])
-    article.to_json(only: [:id, :title, :description, :article_text,], include:  { author:{only: [:id, :first_name, :last_name], include: {categories: {only: [:name]}}}, pictures: {only: [:image_url, :name]}})
+    article.to_json(only: [:id, :title, :description, :article_text,], include:  { author:{only: [:id, :first_name, :last_name], include: {categories: {only: [:name, :id]}}}, pictures: {only: [:image_url, :name]}})
   end
 
   post "/articles" do
@@ -49,7 +49,14 @@ class ApplicationController < Sinatra::Base
       author: author,
       category: category
     )
-    new_article.to_json
+
+    picture = Picture.create(
+      name: params[:picture_name],
+      image_url: params[:picture],
+      article_id: new_article.id
+    )
+
+    new_article.to_json(only: [:id, :title, :description, :article_text,], include:  { author:{only: [:id, :first_name, :last_name], include: {categories: {only: [:name, :id]}}}, pictures: {only: [:image_url, :name]}})
   end
 
   patch "/articles/:id" do
@@ -62,8 +69,16 @@ class ApplicationController < Sinatra::Base
       description: des,
       article_text: art
     )
+
+    Picture.delete_all
+
+    picture = Picture.create(
+      name: params[:picture_name],
+      image_url: params[:picture],
+      article_id: params[:id]
+    )
     # binding.pry
-    updated.to_json
+    updated.to_json(only: [:id, :title, :description, :article_text,], include:  { author:{only: [:id, :first_name, :last_name], include: {categories: {only: [:name, :id]}}}, pictures: {only: [:image_url, :name]}})
   end
 
 
