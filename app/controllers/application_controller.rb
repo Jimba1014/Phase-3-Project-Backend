@@ -1,3 +1,5 @@
+require 'pry'
+
 class ApplicationController < Sinatra::Base
   set :default_content_type, 'application/json'
   
@@ -52,11 +54,16 @@ class ApplicationController < Sinatra::Base
 
   patch "/articles/:id" do
     updated = Article.find(params[:id])
-    updated.update(
-      title: params[:title],
-      description: params[:description],
-      article_text: params[:article_text]
+      title = params[:title] ? params[:title] : updated.title
+      des = params[:description] ? params[:description] : updated.description
+      art = params[:article_text] ? params[:article_text] : updated.article_text
+      updated.update(
+      title: title,
+      description: des,
+      article_text: art
     )
+    # binding.pry
+    updated.to_json
   end
 
 
